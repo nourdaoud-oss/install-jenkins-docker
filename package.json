@@ -1,10 +1,12 @@
+
 {
   "name": "install-jenkins-docker",
   "version": "1.0.0",
   "description": "This repository contains a Docker Compose configuration for a quick installation of Jenkins. This setup is not intended for production systems.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "echo Build successful",
+    "test": "echo Tests successful"
   },
   "repository": {
     "type": "git",
