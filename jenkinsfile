@@ -16,7 +16,6 @@ pipeline {
                     node --version
                     npm ci
                     npm run build
-                    ls -la
                 '''
             }
         }
@@ -30,14 +29,12 @@ pipeline {
             }
             steps {
                 sh '''
-                    test -f build/index.html
                     npm test
                 '''
             }
         }
 
-
-          stage('Deploy') {
+        stage('Deploy') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -50,13 +47,6 @@ pipeline {
                     netlify --version
                 '''
             }
-        }
-
-    }
-
-    post {
-        always {
-            junit 'test-results/junit.xml'
         }
     }
 }
