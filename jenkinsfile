@@ -1,11 +1,13 @@
 
 pipeline {
     agent any
-    environment{
-        NETLIFY_SITE_ID ='7e65f2c0-a93c-489a-9920-4fcd79b4b6c1'
+
+    environment {
+        NETLIFY_SITE_ID = '7e65f2c0-a93c-489a-9920-4fcd79b4b6c1'
     }
 
     stages {
+
         stage('Build') {
             agent {
                 docker {
@@ -33,27 +35,27 @@ pipeline {
             steps {
                 sh '''
                     npm test
+                    test -f build/index.html
+                    echo "Website file exists"
                 '''
             }
         }
 
-        
-     stage('Deploy') {
-        agent {
-         docker {
-            image 'node:18-alpine'
-            reuseNode true
-            args '-u root'
+        stage('Deploy') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                    args '-u root'
+                }
+            }
+            steps {
+                sh '''
+                    npm install -g netlify-cli
+                    netlify --version
+                    echo "Deploying to production site id: $NETLIFY_SITE_ID"
+                '''
+            }
         }
-    }
-        steps {
-           sh '''
-            npm install -g netlify-cli
-            netlify --version
-            echo"deploying to production site id:$NETLIFY_SITE_ID"
-        '''
-    }
-}
-  
     }
 }
